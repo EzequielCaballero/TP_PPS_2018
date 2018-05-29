@@ -1,7 +1,9 @@
 /*INDEX DE PAGINAS*/
 
-/********************************COMUN (1)********************************/
+/********************************COMUN (3)********************************/
+export { InicioPage } from "./inicio/inicio";
 export { LoginPage } from "./login/login";
+export { RegistroPage } from "./registro/registro";
 
 /********************************CLIENTE (8)********************************/
 export { ClienteMenuPage } from "./cliente/cliente-menu/cliente-menu";

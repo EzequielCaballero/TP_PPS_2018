@@ -3,20 +3,20 @@
   <ion-grid *ngIf="!mostrarSpinner">
       <ion-row>
         <ion-col class="top-5">
-          <img class="auto_logo" src="assets/imgs/auto_apagado.png" alt="login imagen">
+          <img id="autoLogo" src="assets/imgs/auto_apagado.png" alt="login imagen">
         </ion-col>
       </ion-row>
 
 <!-- OPCIONES DE LOGUEO -->
-      <ion-fab top center>
+      <ion-fab top center id="botonPruebas" #fab>
         <button ion-fab mini color="loginOp"><ion-icon name="md-car"></ion-icon></button>
         <ion-fab-list side="left">
-          <button ion-fab (click)="ingresoDePrueba('chofer')"><ion-icon name="ios-contacts"></ion-icon></button>
-          <button ion-fab (click)="ingresoDePrueba('cliente')"><ion-icon name="ios-people"></ion-icon></button>
+          <button ion-fab (click)="ingresoDePrueba($event,fab,'chofer')"><ion-icon name="ios-contacts"></ion-icon></button>
+          <button ion-fab (click)="ingresoDePrueba($event,fab,'cliente')"><ion-icon name="ios-people"></ion-icon></button>
         </ion-fab-list>
         <ion-fab-list side="right">
-          <button ion-fab (click)="ingresoDePrueba('supervisor')"><ion-icon name="ios-person-outline"></ion-icon></button>
-          <button ion-fab (click)="ingresoDePrueba('superuser')"><ion-icon name="ios-contact"></ion-icon></button>
+          <button ion-fab (click)="ingresoDePrueba($event,fab,'supervisor')"><ion-icon name="ios-person-outline"></ion-icon></button>
+          <button ion-fab (click)="ingresoDePrueba($event,fab,'superusuario')"><ion-icon name="ios-contact"></ion-icon></button>
         </ion-fab-list>
       </ion-fab>
 

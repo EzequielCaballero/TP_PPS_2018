@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Http } from '@angular/http';
 //*********************FIREBASE import*********************//
 import { AngularFireAuth} from 'angularfire2/auth';
 import { AngularFireDatabase } from 'angularfire2/database';
@@ -16,16 +17,37 @@ import 'rxjs/add/operator/takeUntil';
 export class UsuarioServicioProvider {
 
   usuariosArray:Usuario[] = []; //Array que aloja a los usuarios leídos de la BD
+  usuariosTest:any[] = [];
   usuario:Usuario;
   destroy$: Subject<boolean> = new Subject<boolean>();//referencia para realizar unsubscribe
 
   constructor(  public afDB: AngularFireDatabase,
-                public afAuth:AngularFireAuth) {
+                public afAuth:AngularFireAuth,
+                private _http:Http ) {
 
     console.log('Provider USUARIOS iniciado...');
   }
 
-  //TRAER UN USUARIO
+  //TRAER USUARIOS DE PRUEBA
+  obtener_usuarios_prueba (){
+
+    let promesa = new Promise((resolve, reject)=>{
+      this._http.get("assets/data/usuarios.json")
+          .subscribe( respuesta =>{
+                //console.log("Obtención de usuarios de prueba " + JSON.stringify(respuesta.json()) );
+                for(let user of respuesta.json().usuarios){
+                  this.usuariosTest.push(user);
+                }
+                resolve("Todo ok");
+          }, error=>{
+            console.log("ERROR! al leer usuarios de prueba: " + JSON.stringify(error));
+          });
+    });
+    return promesa;
+  }
+
+
+  //TRAER TODOS LOS USUARIOS
   traer_usuarios(){
     let promesa = new Promise((resolve, reject)=>{
 

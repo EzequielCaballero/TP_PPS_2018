@@ -1,12 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
-/**
- * Generated class for the ChoferInicioPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+//FIREBASE
+import * as firebase from 'firebase/app';
 
 @IonicPage()
 @Component({
@@ -15,7 +10,13 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class ChoferInicioPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  usuarioSesion:any;
+
+  constructor(public navCtrl: NavController,
+              public navParams: NavParams) {
+
+        this.usuarioSesion = firebase.auth().currentUser;
+        console.log("Usuario actual: " + JSON.stringify(this.usuarioSesion));
   }
 
   ionViewDidLoad() {

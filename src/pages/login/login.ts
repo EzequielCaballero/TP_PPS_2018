@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, ToastController } from 'ionic-angular';
+import { NavController, ToastController, FabContainer } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators} from '@angular/forms';
 //PAGINA
 import { ClienteInicioPage, ChoferInicioPage, SupervisorInicioPage } from '../index-paginas';
@@ -10,15 +10,19 @@ import * as firebase from 'firebase/app';
 import{ Observable } from 'rxjs/Observable';
 //SERVICIOS
 import { UsuarioServicioProvider } from '../../providers/usuario-servicio/usuario-servicio';
+//jQUERY
+import * as $ from 'jquery';
 
 @Component({
   selector: 'page-login',
   templateUrl: 'login.html',
+  providers: [UsuarioServicioProvider]
 })
 export class LoginPage {
 
   //ATRIBUTOS
-  perfil:string = "";
+  usuario_perfil:string = "";
+  usuario_foto:string = "";
   mostrarSpinner:boolean = false;
   user: Observable<firebase.User>;
   userActive:any;
@@ -28,6 +32,7 @@ export class LoginPage {
   focus2:boolean = false;
   userNameTxt:string;
   userPassTxt:string;
+  usuariosDePrueba:any[] = [];
   //emailFormat:string = '^(?:[^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*|"[^\n"]+")@(?:[^<>()[\].,;:\s@"]+\.)+[^<>()[\]\.,;:\s@"]{2,63}$/i';
   audio = new Audio();
   //CONSTRUCTOR
@@ -36,7 +41,7 @@ export class LoginPage {
               public fbLogin:FormBuilder,
               public afAuth:AngularFireAuth,
               public afDB: AngularFireDatabase,
-              public usuarioServicio:UsuarioServicioProvider) {
+              public _usuarioServicio:UsuarioServicioProvider) {
 
         this.user = afAuth.authState;
         console.log("Sesion activa?: " + this.afAuth.auth.currentUser);
@@ -51,11 +56,7 @@ export class LoginPage {
   //INICIO
   ionViewDidEnter(){
     console.log("Página cargada!");
-    this.usuarioServicio.traer_usuarios().then(()=>{
-        console.log("USUARIOS: " + JSON.stringify(this.usuarioServicio.usuariosArray));
-    }).catch((error)=>{
-      console.log("Ocurrió un error al traer usuarios!: " + JSON.stringify(error));
-    })
+
   }
 
   //METODOS
@@ -64,10 +65,12 @@ export class LoginPage {
     {
       case 1:
       this.focus1 = false;
+      $('#autoLogo').attr("src",'assets/imgs/auto_apagado.png');
       console.log("Perdio foco 1!");
       break;
       case 2:
       this.focus2 = false;
+      $('#autoLogo').attr("src",'assets/imgs/auto_apagado.png');
       console.log("Perdio foco 2!");
       break;
     }
@@ -78,10 +81,12 @@ export class LoginPage {
     {
       case 1:
       this.focus1 = true;
+      $('#autoLogo').attr("src",'assets/imgs/auto_encendido.png');
       console.log("Tiene foco 1!");
       break;
       case 2:
       this.focus2 = true;
+      $('#autoLogo').attr("src",'assets/imgs/auto_encendido.png');
       console.log("Tiene foco 2!");
       break;
     }
@@ -93,10 +98,7 @@ export class LoginPage {
       .auth
       .signInWithEmailAndPassword(this.myLoginForm.value.userEmail, this.myLoginForm.value.userPassword)
       .then(value => {
-        console.log('Funciona!' + JSON.stringify(value));
-          this.mostrarSpinner = false;
-          this.ingresar();
-        //this.ingresar(value);
+        //console.log('Funciona!' + JSON.stringify(value));
       })
       .catch(err => {
         console.log('Algo salió mal: ',err.message);
@@ -104,22 +106,31 @@ export class LoginPage {
         this.mostrarSpinner = false;
         this.mostrarAlerta();
       })
-      .then(()=>{
-          for(let user of this.usuarioServicio.usuariosArray){
-            if(user.correo == this.myLoginForm.value.userEmail)
-              this.perfil = user.perfil;
-          }
+      .then(()=>{ //Una vez validado el usuario asignar perfil
+          this._usuarioServicio.traer_usuarios().then(()=>{
+              //console.log("USUARIOS: " + JSON.stringify(this._usuarioServicio.usuariosArray));
+              for(let user of this._usuarioServicio.usuariosArray){
+                if(user.correo == this.myLoginForm.value.userEmail){
+                  this.usuario_perfil = user.perfil;
+                  this.usuario_foto = user.foto;
+                }
+              }
+              this.ingresar();
+          }).catch((error)=>{
+            console.log("Ocurrió un error al traer usuarios!: " + JSON.stringify(error));
+          })
       });
   }
 
   ingresar(){
     this.userActive = firebase.auth().currentUser;
     this.userActive.updateProfile({
-      displayName: this.perfil,
-      //photoURL: "https://example.com/jane-q-user/profile.jpg"
+      displayName: this.usuario_perfil,
+      photoURL: this.usuario_foto
     }).then(value => {
       // Update successful.
-      switch(this.perfil){
+      this.mostrarSpinner = false;
+      switch(this.usuario_perfil){
         case "cliente":
         this.navCtrl.push(ClienteInicioPage);
         break;
@@ -130,10 +141,9 @@ export class LoginPage {
         this.navCtrl.push(SupervisorInicioPage);
         break;
         case "superusuario":
-        //this.navCtrl.push(ClienteInicioPage);
+        this.navCtrl.push(SupervisorInicioPage);
         break;
       }
-
     })
     .catch(err => {
       console.log('Algo salió mal: ',err.message);
@@ -141,25 +151,19 @@ export class LoginPage {
     });
   }
 
-  ingresoDePrueba(user:string){
-    switch(user){
-      case 'cliente':
-        this.userNameTxt = "cliente@kbremiseria.com";
-        this.userPassTxt = "cliente11";
-        break;
-      case 'chofer':
-        this.userNameTxt = "chofer@kbremiseria.com";
-        this.userPassTxt = "chofer22";
-        break;
-      case 'supervisor':
-        this.userNameTxt = "supervisor@kbremiseria.com";
-        this.userPassTxt = "supervisor33";
-        break;
-      case 'superuser':
-        this.userNameTxt = "superuser@kbremiseria.com";
-        this.userPassTxt = "superuser44";
-        break;
-    }
+  ingresoDePrueba(event, fab:FabContainer, userProfile:string){
+    fab.close();
+
+    this._usuarioServicio.obtener_usuarios_prueba().then((respuesta)=>{
+        console.log("DATO recibido: " + respuesta);
+        for(let user of this._usuarioServicio.usuariosTest){
+            if(user.perfil == userProfile){
+              this.userNameTxt = user.correo;
+              this.userPassTxt = user.clave;
+            }
+        }
+        $('#autoLogo').attr("src",'assets/imgs/auto_encendido.png');
+    });
   }
 
   mostrarAlerta(){

@@ -1,3 +1,5 @@
+//CLASE
+
 export class Usuario{
 
     id_usuario:string;
@@ -17,29 +19,28 @@ export class Usuario{
         //this.edad = user_data.edad;
         //this.direccion = user_data.direccion;
         this.perfil = user_data.perfil;
-        //this.foto = user_data.foto;
+        this.foto = user_data.foto;
         this.viajando = false;
         this.activo = true;
     }
 
-    public static traer_todo_usuarios(){
-
-    }
-
-    public static traer_un_usuario(correo:string){
-
-    }
-
-    public static agregar_usuario(){
-
-    }
-
-    public static modificar_usuario(){
-
-    }
-
-    public static borrar_usuario(){
-
-    }
+    // public static traer_todo_usuarios(){
+    // }
+    //
+    // public static traer_un_usuario(correo:string){
+    //
+    // }
+    //
+    // public static agregar_usuario(){
+    //
+    // }
+    //
+    // public static modificar_usuario(){
+    //
+    // }
+    //
+    // public static borrar_usuario(){
+    //
+    // }
 
 }

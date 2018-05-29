@@ -15,6 +15,9 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 //CONFIGURACION FIREBASE
 import { environment } from '../environments/environment';
 
+//HTTP
+import { HttpModule } from '@angular/http';
+
 //SERVICIOS
 import { UsuarioServicioProvider } from '../providers/usuario-servicio/usuario-servicio';
 
@@ -31,7 +34,8 @@ import { UsuarioServicioProvider } from '../providers/usuario-servicio/usuario-s
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    HttpModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

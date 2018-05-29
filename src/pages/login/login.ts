@@ -5,9 +5,11 @@ import { FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { ClienteInicioPage, ChoferInicioPage, SupervisorInicioPage } from '../index-paginas';
 //FIREBASE
 import { AngularFireAuth} from 'angularfire2/auth';
+import { AngularFireDatabase } from 'angularfire2/database';
 import * as firebase from 'firebase/app';
 import{ Observable } from 'rxjs/Observable';
-
+//SERVICIOS
+import { UsuarioServicioProvider } from '../../providers/usuario-servicio/usuario-servicio';
 
 @Component({
   selector: 'page-login',
@@ -32,7 +34,10 @@ export class LoginPage {
   constructor(public navCtrl: NavController,
               public toastCtrl: ToastController,
               public fbLogin:FormBuilder,
-              public afAuth:AngularFireAuth) {
+              public afAuth:AngularFireAuth,
+              public afDB: AngularFireDatabase,
+              public usuarioServicio:UsuarioServicioProvider) {
+
         this.user = afAuth.authState;
         console.log("Sesion activa?: " + this.afAuth.auth.currentUser);
         this.userNameTxt = "";
@@ -40,12 +45,17 @@ export class LoginPage {
         this.myLoginForm = this.fbLogin.group({
           userEmail: ['', [Validators.required, Validators.email]],
           userPassword: ['', [Validators.required]],
-    });
+        });
   }
 
   //INICIO
   ionViewDidEnter(){
-    console.log("Por entrar!");
+    console.log("Página cargada!");
+    this.usuarioServicio.traer_usuarios().then(()=>{
+        console.log("USUARIOS: " + JSON.stringify(this.usuarioServicio.usuariosArray));
+    }).catch((error)=>{
+      console.log("Ocurrió un error al traer usuarios!: " + JSON.stringify(error));
+    })
   }
 
   //METODOS
@@ -93,6 +103,12 @@ export class LoginPage {
         this.reproducirSonido();
         this.mostrarSpinner = false;
         this.mostrarAlerta();
+      })
+      .then(()=>{
+          for(let user of this.usuarioServicio.usuariosArray){
+            if(user.correo == this.myLoginForm.value.userEmail)
+              this.perfil = user.perfil;
+          }
       });
   }
 
@@ -103,17 +119,27 @@ export class LoginPage {
       //photoURL: "https://example.com/jane-q-user/profile.jpg"
     }).then(value => {
       // Update successful.
-      this.navCtrl.push(ClienteInicioPage);
+      switch(this.perfil){
+        case "cliente":
+        this.navCtrl.push(ClienteInicioPage);
+        break;
+        case "chofer":
+        this.navCtrl.push(ChoferInicioPage);
+        break;
+        case "supervisor":
+        this.navCtrl.push(SupervisorInicioPage);
+        break;
+        case "superusuario":
+        //this.navCtrl.push(ClienteInicioPage);
+        break;
+      }
+
     })
     .catch(err => {
       console.log('Algo salió mal: ',err.message);
       this.reproducirSonido();
     });
   }
-
-  // ingresar(usuario:any){
-  //   this.navCtrl.push(HomePage, {'userData': usuario});
-  // }
 
   ingresoDePrueba(user:string){
     switch(user){

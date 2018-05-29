@@ -6,25 +6,30 @@ import { StatusBar } from '@ionic-native/status-bar';
 
 import { MyApp } from './app.component';
 //PAGES
-import { LoginPage, ClienteInicioPage } from '../pages/index-paginas';
+import { LoginPage, ClienteInicioPage, ChoferInicioPage, SupervisorInicioPage } from '../pages/index-paginas';
 //FIREBASE
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule, AngularFireDatabase } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 
 //CONFIGURACION FIREBASE
-import { firebaseConfig } from './firebase';
+import { environment } from '../environments/environment';
+
+//SERVICIOS
+import { UsuarioServicioProvider } from '../providers/usuario-servicio/usuario-servicio';
 
 @NgModule({
   declarations: [
     MyApp,
     LoginPage,
-    ClienteInicioPage
+    ClienteInicioPage,
+    ChoferInicioPage,
+    SupervisorInicioPage
   ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
-    AngularFireModule.initializeApp(firebaseConfig),
+    AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
     AngularFireAuthModule
   ],
@@ -32,13 +37,16 @@ import { firebaseConfig } from './firebase';
   entryComponents: [
     MyApp,
     LoginPage,
-    ClienteInicioPage
+    ClienteInicioPage,
+    ChoferInicioPage,
+    SupervisorInicioPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
     AngularFireDatabase,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    UsuarioServicioProvider
   ]
 })
 export class AppModule {}

@@ -10,6 +10,7 @@ import * as firebase from 'firebase/app';
 import{ Observable } from 'rxjs/Observable';
 //SERVICIOS
 import { UsuarioServicioProvider } from '../../providers/usuario-servicio/usuario-servicio';
+import { AuthServicioProvider } from '../../providers/auth-servicio/auth-servicio';
 //jQUERY
 import * as $ from 'jquery';
 
@@ -41,7 +42,8 @@ export class LoginPage {
               public fbLogin:FormBuilder,
               public afAuth:AngularFireAuth,
               public afDB: AngularFireDatabase,
-              public _usuarioServicio:UsuarioServicioProvider) {
+              public _usuarioServicio:UsuarioServicioProvider,
+              public _authServicio:AuthServicioProvider) {
 
         this.user = afAuth.authState;
         console.log("Sesion activa?: " + this.afAuth.auth.currentUser);
@@ -94,9 +96,12 @@ export class LoginPage {
 
   validarUsuarioAuth(){
     this.mostrarSpinner = true;
-    this.afAuth
-      .auth
-      .signInWithEmailAndPassword(this.myLoginForm.value.userEmail, this.myLoginForm.value.userPassword)
+    let credenciales = {
+      email: this.myLoginForm.value.userEmail,
+      password: this.myLoginForm.value.userPassword
+    };
+
+    this._authServicio.signInWithEmail(credenciales)
       .then(value => {
         //console.log('Funciona!' + JSON.stringify(value));
       })

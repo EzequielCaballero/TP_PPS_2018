@@ -5,8 +5,7 @@ export { InicioPage } from "./inicio/inicio";
 export { LoginPage } from "./login/login";
 export { RegistroPage } from "./registro/registro";
 
-/********************************CLIENTE (8)********************************/
-export { ClienteMenuPage } from "./cliente/cliente-menu/cliente-menu";
+/********************************CLIENTE (7)********************************/
 export { ClienteInicioPage } from "./cliente/cliente-inicio/cliente-inicio";
 export { ClientePerfilPage } from "./cliente/cliente-perfil/cliente-perfil";
 export { ClienteViajePage } from "./cliente/cliente-viaje/cliente-viaje";
@@ -15,8 +14,7 @@ export { ClienteEncuestaPage } from "./cliente/cliente-encuesta/cliente-encuesta
 export { ClienteHistorialPage } from "./cliente/cliente-historial/cliente-historial";
 export { ClienteEstadisticaPage } from "./cliente/cliente-estadistica/cliente-estadistica";
 
-/********************************CHOFER (7)********************************/
-export { ChoferMenuPage } from "./chofer/chofer-menu/chofer-menu";
+/********************************CHOFER (6)********************************/
 export { ChoferInicioPage } from "./chofer/chofer-inicio/chofer-inicio";
 export { ChoferPerfilPage } from "./chofer/chofer-perfil/chofer-perfil";
 export { ChoferViajePage } from "./chofer/chofer-viaje/chofer-viaje";
@@ -24,8 +22,7 @@ export { ChoferEncuestaPage } from "./chofer/chofer-encuesta/chofer-encuesta";
 export { ChoferHistorialPage } from "./chofer/chofer-historial/chofer-historial";
 export { ChoferEstadisticaPage } from "./chofer/chofer-estadistica/chofer-estadistica";
 
-/********************************SUPERVISOR (12)********************************/
-export { SupervisorMenuPage } from "./supervisor/supervisor-menu/supervisor-menu";
+/********************************SUPERVISOR (11)********************************/
 export { SupervisorInicioPage } from "./supervisor/supervisor-inicio/supervisor-inicio";
 export { SupervisorPerfilPage } from "./supervisor/supervisor-perfil/supervisor-perfil";
 export { SupervisorEncuestaPage } from "./supervisor/supervisor-encuesta/supervisor-encuesta";

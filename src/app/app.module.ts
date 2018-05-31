@@ -6,7 +6,12 @@ import { StatusBar } from '@ionic-native/status-bar';
 
 import { MyApp } from './app.component';
 //PAGES
-import { LoginPage, ClienteInicioPage, ChoferInicioPage, SupervisorInicioPage } from '../pages/index-paginas';
+import { InicioPage, RegistroPage, LoginPage,
+         ClienteInicioPage, ClientePerfilPage, ClienteViajePage, ClienteReservaPage, ClienteHistorialPage, ClienteEstadisticaPage, ClienteEncuestaPage, //--CLIENTE
+         ChoferInicioPage, ChoferPerfilPage, ChoferViajePage, ChoferHistorialPage, ChoferEstadisticaPage, ChoferEncuestaPage,//-----------------------------CHOFER
+         SupervisorInicioPage, SupervisorPerfilPage, SupervisorSeguimientoPage, SupervisorEstadisticaPage, SupervisorEncuestaPage,//------------------------SUPERVISOR
+         SupervisorUsuarioPage, SupervisorVehiculoPage, SupervisorListaUsuariosPage, SupervisorListaVehiculosPage, SupervisorRegistroUsuarioPage, SupervisorRegistroVehiculoPage} from '../pages/index-paginas';
+
 //FIREBASE
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule, AngularFireDatabase } from 'angularfire2/database';
@@ -20,14 +25,41 @@ import { HttpModule } from '@angular/http';
 
 //SERVICIOS
 import { UsuarioServicioProvider } from '../providers/usuario-servicio/usuario-servicio';
+import { AuthServicioProvider } from '../providers/auth-servicio/auth-servicio';
 
 @NgModule({
   declarations: [
     MyApp,
+    InicioPage,
+    RegistroPage,
     LoginPage,
+    //CLIENTE
     ClienteInicioPage,
+    ClientePerfilPage,
+    ClienteViajePage,
+    ClienteReservaPage,
+    ClienteHistorialPage,
+    ClienteEstadisticaPage,
+    ClienteEncuestaPage,
+    //CHOFER
     ChoferInicioPage,
-    SupervisorInicioPage
+    ChoferPerfilPage,
+    ChoferViajePage,
+    ChoferHistorialPage,
+    ChoferEstadisticaPage,
+    ChoferEncuestaPage,
+    //SUPERVISOR
+    SupervisorInicioPage,
+    SupervisorPerfilPage,
+    SupervisorSeguimientoPage,
+    SupervisorEstadisticaPage,
+    SupervisorEncuestaPage,
+    SupervisorUsuarioPage,
+    SupervisorVehiculoPage,
+    SupervisorListaUsuariosPage,
+    SupervisorListaVehiculosPage,
+    SupervisorRegistroUsuarioPage,
+    SupervisorRegistroVehiculoPage
   ],
   imports: [
     BrowserModule,
@@ -40,17 +72,44 @@ import { UsuarioServicioProvider } from '../providers/usuario-servicio/usuario-s
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
+    InicioPage,
+    RegistroPage,
     LoginPage,
+    //CLIENTE
     ClienteInicioPage,
+    ClientePerfilPage,
+    ClienteViajePage,
+    ClienteReservaPage,
+    ClienteHistorialPage,
+    ClienteEstadisticaPage,
+    ClienteEncuestaPage,
+    //CHOFER
     ChoferInicioPage,
-    SupervisorInicioPage
+    ChoferPerfilPage,
+    ChoferViajePage,
+    ChoferHistorialPage,
+    ChoferEstadisticaPage,
+    ChoferEncuestaPage,
+    //SUPERVISOR
+    SupervisorInicioPage,
+    SupervisorPerfilPage,
+    SupervisorSeguimientoPage,
+    SupervisorEstadisticaPage,
+    SupervisorEncuestaPage,
+    SupervisorUsuarioPage,
+    SupervisorVehiculoPage,
+    SupervisorListaUsuariosPage,
+    SupervisorListaVehiculosPage,
+    SupervisorRegistroUsuarioPage,
+    SupervisorRegistroVehiculoPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
     AngularFireDatabase,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    UsuarioServicioProvider
+    UsuarioServicioProvider,
+    AuthServicioProvider
   ]
 })
 export class AppModule {}

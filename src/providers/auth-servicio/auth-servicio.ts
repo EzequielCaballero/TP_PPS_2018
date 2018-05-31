@@ -16,14 +16,34 @@ export class AuthServicioProvider {
   		});
   }
 
+  //Validar login
+  get authenticated():boolean{
+    return this.user !== null;
+  }
+
+  //Iniciar sesión
   signInWithEmail(credentials) {
 		console.log('Sign in with email');
-		return this.afAuth.auth.signInWithEmailAndPassword(credentials.email,
-			 credentials.password);
+		return this.afAuth.auth.signInWithEmailAndPassword(credentials.email, credentials.password);
 	}
 
+  //Crear usuario
   signUp(credentials) {
-	return this.afAuth.auth.createUserWithEmailAndPassword(credentials.email, credentials.password);
+	  return this.afAuth.auth.createUserWithEmailAndPassword(credentials.email, credentials.password);
+  }
+
+  //Cerrar sesión
+  signOut(): Promise<void> {
+    return this.afAuth.auth.signOut();
+  }
+
+  //Traer datos del usuario (de firebase)
+  get_userData(){
+    return this.afAuth.auth.currentUser;
+  }
+
+  get_userEmail(){
+    return this.user && this.user.email;
   }
 
 }

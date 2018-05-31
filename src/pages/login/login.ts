@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, ToastController, FabContainer } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators} from '@angular/forms';
 //PAGINA
-import { ClienteInicioPage, ChoferInicioPage, SupervisorInicioPage } from '../index-paginas';
+import { ClienteInicioPage, ChoferInicioPage, SupervisorInicioPage, RegistroPage } from '../index-paginas';
 //FIREBASE
 import { AngularFireAuth} from 'angularfire2/auth';
 import { AngularFireDatabase } from 'angularfire2/database';
@@ -94,7 +94,7 @@ export class LoginPage {
     }
   }
 
-  validarUsuarioAuth(){
+  validarUsuario(){
     this.mostrarSpinner = true;
     let credenciales = {
       email: this.myLoginForm.value.userEmail,
@@ -128,7 +128,7 @@ export class LoginPage {
   }
 
   ingresar(){
-    this.userActive = firebase.auth().currentUser;
+    this.userActive = this._authServicio.get_userData();
     this.userActive.updateProfile({
       displayName: this.usuario_perfil,
       photoURL: this.usuario_foto
@@ -185,4 +185,9 @@ export class LoginPage {
     this.audio.load();
     this.audio.play();
   }
+
+  registrarse(){
+    this.navCtrl.push(RegistroPage);
+  }
+
 }

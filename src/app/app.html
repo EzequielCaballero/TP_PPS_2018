@@ -1,3 +1,4 @@
+<!-- SPINNER -->
 <div *ngIf="mostrarSplash" class="splashScreen">
   <div class="spinner">
     <div class="double-bounce1"><img src="assets/imgs/logoPersonal.png" alt="login imagen"></div>
@@ -5,6 +6,7 @@
   </div>
 </div>
 
+<!-- MENU -->
 <ion-menu [content]="content">
   <ion-header>
     <ion-toolbar>
@@ -13,13 +15,27 @@
   </ion-header>
 
   <ion-content>
+    <!-- OPCIONES MENU -->
     <ion-list>
       <button menuClose ion-item *ngFor="let p of pagesApp" (click)="openPage(p)">
         {{p.title}}
       </button>
     </ion-list>
+
+    <!-- BOTONES LOG -->
+    <ion-list-header *ngIf="auth.get_userEmail()">{{auth.get_userEmail()}}</ion-list-header>
+      <ion-item (click)="logout()" *ngIf="auth.authenticated">
+      <ion-icon name="log-out" item-left></ion-icon>
+        Log out
+      </ion-item>
+
+      <ion-item (click)="login()" *ngIf="!auth.authenticated">
+        <ion-icon name="log-in" item-left></ion-icon>
+        Log in
+      </ion-item>
   </ion-content>
 
 </ion-menu>
 
+<!-- CONTENIDO -->
 <ion-nav [root]="rootPage" #content></ion-nav>

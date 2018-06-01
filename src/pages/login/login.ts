@@ -143,8 +143,6 @@ export class LoginPage {
         this.navCtrl.push(ChoferInicioPage);
         break;
         case "supervisor":
-        this.navCtrl.push(SupervisorInicioPage);
-        break;
         case "superusuario":
         this.navCtrl.push(SupervisorInicioPage);
         break;

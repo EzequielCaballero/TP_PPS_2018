@@ -17,13 +17,15 @@
   <ion-content>
     <!-- OPCIONES MENU -->
     <ion-list>
-      <button menuClose ion-item *ngFor="let p of pagesApp" (click)="openPage(p)">
-        {{p.title}}
-      </button>
+        <div *ngFor="let p of pagesApp">
+          <button menuClose ion-item *ngIf="p.visibility" (click)="openPage(p)">
+            {{p.title}}
+          </button>
+        </div>
     </ion-list>
 
     <!-- BOTONES LOG -->
-    <ion-list-header *ngIf="auth.get_userEmail()">{{auth.get_userEmail()}}</ion-list-header>
+    <ion-list-header *ngIf="auth.get_userEmail()">Usuario: {{auth.get_userEmail()}}</ion-list-header>
       <ion-item (click)="logout()" *ngIf="auth.authenticated">
       <ion-icon name="log-out" item-left></ion-icon>
         Log out

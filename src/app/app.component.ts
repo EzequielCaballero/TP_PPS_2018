@@ -25,6 +25,11 @@ export class MyApp {
   pagesApp: Array<{title: string, component: any, visibility: boolean}>;
   usuarioSesion:any;
 
+  //Variables para control de vistas
+  vista_cliente:boolean = false;
+  vista_chofer:boolean = false;
+  vista_supervisor:boolean = false;
+
   constructor(public platform: Platform,
               public statusBar: StatusBar,
               public splashScreen: SplashScreen,
@@ -32,21 +37,6 @@ export class MyApp {
               public auth: AuthServicioProvider) {
 
       this.inicializarApp();
-
-      this.pagesApp = [
-        //PAGINAS CLIENTE
-        { title: 'Inicio', component: ClienteInicioPage, visibility: true },
-        { title: 'Perfil', component: ClientePerfilPage, visibility: true },
-        { title: 'Viaje', component: ClienteViajePage, visibility: true },
-        { title: 'Reserva', component: ClienteReservaPage, visibility: true },
-        { title: 'Historial', component: ClienteHistorialPage, visibility: true },
-        { title: 'Estadistica', component: ClienteEstadisticaPage, visibility: true },
-        { title: 'Encuesta', component: ClienteEncuestaPage, visibility: true },
-        //PAGINAS CHOFER
-        { title: 'Chofer', component: ChoferInicioPage, visibility: true },
-        //PAGINAS SUPERVISOR
-        { title: 'Supervisor', component: SupervisorInicioPage, visibility: true }
-      ];
 
   }
 
@@ -66,13 +56,67 @@ export class MyApp {
     this.auth.afAuth.authState
     .subscribe(
       user => {
+        this.menu.enable(true);
         if (user) {
-          this.rootPage = ClienteInicioPage;
+          switch(user.displayName){
+            case "cliente":
+            this.vista_cliente = true;
+            this.vista_chofer = false;
+            this.vista_supervisor = false;
+            this.rootPage = ClienteInicioPage;
+            break;
+            case "chofer":
+            this.vista_cliente = false;
+            this.vista_chofer = true;
+            this.vista_supervisor = false;
+            this.rootPage = ChoferInicioPage;
+            break;
+            case "supervisor":
+            case "superusuario":
+            this.vista_cliente = false;
+            this.vista_chofer = false;
+            this.vista_supervisor = true;
+            this.rootPage = SupervisorInicioPage;
+            break;
+          }
+
+          this.pagesApp = [
+            //PAGINAS CLIENTE (7)
+            { title: 'Inicio', component: ClienteInicioPage, visibility: this.vista_cliente },
+            { title: 'Perfil', component: ClientePerfilPage, visibility: this.vista_cliente },
+            { title: 'Viaje', component: ClienteViajePage, visibility: this.vista_cliente },
+            { title: 'Reserva', component: ClienteReservaPage, visibility: this.vista_cliente },
+            { title: 'Historial', component: ClienteHistorialPage, visibility: this.vista_cliente },
+            { title: 'Estadística', component: ClienteEstadisticaPage, visibility: this.vista_cliente },
+            { title: 'Encuesta', component: ClienteEncuestaPage, visibility: this.vista_cliente },
+            //PAGINAS CHOFER (6)
+            { title: 'Inicio', component: ChoferInicioPage, visibility: this.vista_chofer },
+            { title: 'Perfil', component: ChoferPerfilPage, visibility: this.vista_chofer },
+            { title: 'Viaje', component: ChoferViajePage, visibility: this.vista_chofer },
+            { title: 'Historial', component: ChoferHistorialPage, visibility: this.vista_chofer },
+            { title: 'Estadística', component: ChoferEstadisticaPage, visibility: this.vista_chofer },
+            { title: 'Encuesta', component: ChoferEncuestaPage, visibility: this.vista_chofer },
+            //PAGINAS SUPERVISOR (11)
+            { title: 'Inicio', component: SupervisorInicioPage, visibility: this.vista_supervisor },
+            { title: 'Perfil', component: SupervisorPerfilPage, visibility: this.vista_supervisor },
+            { title: 'Seguimiento', component: SupervisorSeguimientoPage, visibility: this.vista_supervisor },
+            { title: 'Estadística', component: SupervisorEstadisticaPage, visibility: this.vista_supervisor },
+            { title: 'Encuesta', component: SupervisorEncuestaPage, visibility: this.vista_supervisor },
+            { title: 'Control usuarios', component: SupervisorUsuarioPage, visibility: this.vista_supervisor },
+            { title: 'Control vehiculos', component: SupervisorVehiculoPage, visibility: this.vista_supervisor },
+            { title: 'Lista usuarios', component: SupervisorListaUsuariosPage, visibility: this.vista_supervisor },
+            { title: 'Lista vehiculos', component: SupervisorListaVehiculosPage, visibility: this.vista_supervisor },
+            { title: 'Registro Usuarios', component: SupervisorRegistroUsuarioPage, visibility: this.vista_supervisor },
+            { title: 'Registro Vehiculos', component: SupervisorRegistroVehiculoPage, visibility: this.vista_supervisor }
+          ];
+
         } else {
+          this.menu.enable(false);
           this.rootPage = LoginPage;
         }
       },
       () => {
+        this.menu.enable(false);
         this.rootPage = LoginPage;
       }
     );
@@ -80,13 +124,10 @@ export class MyApp {
   }
 
   openPage(page) {
-    // Reset the content nav to have just this page
-    // we wouldn't want the back button to show in this scenario
     this.nav.setRoot(page.component);
   }
 
   login() {
-    this.menu.close();
   	this.auth.signOut();
   	this.nav.setRoot(LoginPage);
   }

@@ -31,34 +31,53 @@ page-login {
     margin-top: 1%;
   }
 
+  #mensajeRegistro{
+    color: rgb(47, 50, 65);
+    font-weight: bold;
+  }
+
+  #mensajeRegistro2{
+    color: color($colors, register);
+    font-size: 20px;
+    font-weight: bold;
+  }
+
   .spinner {
-  width: 100px;
-  height: 100px;
-  margin: 100px auto;
-  background-color: rgba(#333333, 0);
+    width: 100px;
+    height: 100px;
+    margin: 100px auto;
+    background-color: rgba(#333333, 0);
 
-  border-radius: 100%;
-  -webkit-animation: sk-scaleout 1.0s infinite ease-in-out;
-  animation: sk-scaleout 1.0s infinite ease-in-out;
-}
-
-@-webkit-keyframes sk-scaleout {
-  0% { -webkit-transform: scale(0) }
-  100% {
-    -webkit-transform: scale(1.0);
-    opacity: 0;
+    border-radius: 100%;
+    -webkit-animation: sk-scaleout 1.0s infinite ease-in-out;
+    animation: sk-scaleout 1.0s infinite ease-in-out;
   }
-}
 
-@keyframes sk-scaleout {
-  0% {
-    -webkit-transform: scale(0);
-    transform: scale(0);
-  } 100% {
-    -webkit-transform: scale(1.0);
-    transform: scale(1.0);
-    opacity: 0;
+  @-webkit-keyframes sk-scaleout {
+    0% { -webkit-transform: scale(0) }
+    100% {
+      -webkit-transform: scale(1.0);
+      opacity: 0;
+    }
   }
-}
+
+  @keyframes sk-scaleout {
+    0% {
+      -webkit-transform: scale(0);
+      transform: scale(0);
+    } 100% {
+      -webkit-transform: scale(1.0);
+      transform: scale(1.0);
+      opacity: 0;
+    }
+  }
+
+  ion-item.item-md.item-input.input-has-focus .item-inner,
+  ion-item.item-md.item-input.ng-valid.input-has-value:not(.input-has-focus) .item-inner,
+  ion-item.item-md.item-input.ng-invalid.ng-touched:not(.input-has-focus) .item-inner {
+      border-bottom-color: #ffffff;
+      box-shadow: none;
+  }
+
 
 }

@@ -9,7 +9,7 @@
 
 <!-- OPCIONES DE LOGUEO -->
       <ion-fab top center id="botonPruebas" #fab>
-        <button ion-fab mini color="loginOp"><ion-icon name="md-car"></ion-icon></button>
+        <button ion-fab mini color="signin"><ion-icon name="md-car"></ion-icon></button>
         <ion-fab-list side="left">
           <button ion-fab (click)="ingresoDePrueba($event,fab,'chofer')"><ion-icon name="ios-contacts"></ion-icon></button>
           <button ion-fab (click)="ingresoDePrueba($event,fab,'cliente')"><ion-icon name="ios-people"></ion-icon></button>
@@ -24,7 +24,7 @@
       <form [formGroup]="myLoginForm" (ngSubmit)="validarUsuario()" novalidate class="top-1">
         <ion-row>
           <ion-col>
-            <h5>INICIAR SESIÓN</h5>
+            <h5>KB REMISERIA</h5>
             <!-- USUARIO -->
             <ion-item>
                 <ion-input formControlName="userEmail" id="userNameInput" type="text" placeholder="Usuario" [(ngModel)]="userNameTxt" (ionFocus)='tieneFoco(1)' (ionBlur)='perdioFoco(1)'></ion-input>
@@ -41,7 +41,7 @@
               <p color="danger" ion-text *ngIf="myLoginForm.get('userPassword').hasError('required') && !focus2">Campo requerido</p>
             </ion-item>
             <!-- SUBMIT -->
-              <button type="submit" ion-button color="login" icon-left block
+              <button type="submit" ion-button color="signin" icon-left block
                 [disabled]="myLoginForm.invalid">
                 <ion-icon name="md-contact"></ion-icon>
                 Ingresar
@@ -49,6 +49,14 @@
           </ion-col>
         </ion-row>
       </form>
+
+      <div>
+        <p id="mensajeRegistro">¿No tienes una cuenta?</p>
+        <p id="mensajeRegistro2" (click)="registrarse()">
+          ¡Regístrate gratis!
+          <ion-icon name="md-contact"></ion-icon>
+        </p>
+      </div>
 
   </ion-grid>
 

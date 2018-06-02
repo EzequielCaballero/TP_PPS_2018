@@ -13,7 +13,7 @@ import { LoginPage,
          SupervisorUsuarioPage, SupervisorVehiculoPage, SupervisorListaUsuariosPage, SupervisorListaVehiculosPage, SupervisorRegistroUsuarioPage, SupervisorRegistroVehiculoPage} from '../pages/index-paginas';
 //SERVICIOS
 import { AuthServicioProvider } from '../providers/auth-servicio/auth-servicio';
-import { PushOneSignalProvider } from '../providers/push-one-signal/push-one-signal';
+//import { PushOneSignalProvider } from '../providers/push-one-signal/push-one-signal';
 
 @Component({
   templateUrl: 'app.html'
@@ -35,8 +35,7 @@ export class MyApp {
               public statusBar: StatusBar,
               public splashScreen: SplashScreen,
               public menu: MenuController,
-              public auth: AuthServicioProvider,
-              public _pushOneSignal:PushOneSignalProvider) {
+              public auth: AuthServicioProvider) {
 
       this.inicializarApp();
 
@@ -82,7 +81,6 @@ export class MyApp {
             break;
           }
 
-          this._pushOneSignal.send_tag(user.displayName);
           this.pagesApp = [
             //PAGINAS CLIENTE (7)
             { title: 'Inicio', component: ClienteInicioPage, visibility: this.vista_cliente },
@@ -137,7 +135,6 @@ export class MyApp {
 
   logout() {
   	this.menu.close();
-    this._pushOneSignal.delete_tag();
   	this.auth.signOut();
   	this.nav.setRoot(LoginPage);
   }

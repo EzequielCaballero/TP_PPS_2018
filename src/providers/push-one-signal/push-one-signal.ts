@@ -37,12 +37,12 @@ export class PushOneSignalProvider {
 
   }
 
-  send_tag(id:string, perfil:string){
-    this.oneSignal.sendTag(id, perfil);
+  send_tag(perfil:string){
+    this.oneSignal.sendTag('profile', perfil);
   }
 
-  delete_tag(id:string){
-    this.oneSignal.deleteTag(id);
+  delete_tag(){
+    this.oneSignal.deleteTag('profile');
   }
 
 }

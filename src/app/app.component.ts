@@ -82,7 +82,7 @@ export class MyApp {
             break;
           }
 
-          this._pushOneSignal.send_tag(user.uid, user.displayName);
+          this._pushOneSignal.send_tag(user.displayName);
           this.pagesApp = [
             //PAGINAS CLIENTE (7)
             { title: 'Inicio', component: ClienteInicioPage, visibility: this.vista_cliente },
@@ -137,7 +137,7 @@ export class MyApp {
 
   logout() {
   	this.menu.close();
-    this._pushOneSignal.delete_tag(this.auth.get_userUID());
+    this._pushOneSignal.delete_tag();
   	this.auth.signOut();
   	this.nav.setRoot(LoginPage);
   }

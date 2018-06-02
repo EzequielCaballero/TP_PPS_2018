@@ -6,13 +6,14 @@ import { timer } from 'rxjs/observable/timer';
 //jQUERY
 import * as $ from 'jquery';
 //PAGES
-import { InicioPage, RegistroPage, LoginPage,
+import { LoginPage,
          ClienteInicioPage, ClientePerfilPage, ClienteViajePage, ClienteReservaPage, ClienteHistorialPage, ClienteEstadisticaPage, ClienteEncuestaPage, //--CLIENTE
          ChoferInicioPage, ChoferPerfilPage, ChoferViajePage, ChoferHistorialPage, ChoferEstadisticaPage, ChoferEncuestaPage,//-----------------------------CHOFER
          SupervisorInicioPage, SupervisorPerfilPage, SupervisorSeguimientoPage, SupervisorEstadisticaPage, SupervisorEncuestaPage,//------------------------SUPERVISOR
          SupervisorUsuarioPage, SupervisorVehiculoPage, SupervisorListaUsuariosPage, SupervisorListaVehiculosPage, SupervisorRegistroUsuarioPage, SupervisorRegistroVehiculoPage} from '../pages/index-paginas';
 //SERVICIOS
 import { AuthServicioProvider } from '../providers/auth-servicio/auth-servicio';
+import { PushOneSignalProvider } from '../providers/push-one-signal/push-one-signal';
 
 @Component({
   templateUrl: 'app.html'
@@ -34,7 +35,8 @@ export class MyApp {
               public statusBar: StatusBar,
               public splashScreen: SplashScreen,
               public menu: MenuController,
-              public auth: AuthServicioProvider) {
+              public auth: AuthServicioProvider,
+              public _pushOneSignal:PushOneSignalProvider) {
 
       this.inicializarApp();
 
@@ -80,6 +82,7 @@ export class MyApp {
             break;
           }
 
+          this._pushOneSignal.send_tag(user.uid, user.displayName);
           this.pagesApp = [
             //PAGINAS CLIENTE (7)
             { title: 'Inicio', component: ClienteInicioPage, visibility: this.vista_cliente },
@@ -134,6 +137,7 @@ export class MyApp {
 
   logout() {
   	this.menu.close();
+    this._pushOneSignal.delete_tag(this.auth.get_userUID());
   	this.auth.signOut();
   	this.nav.setRoot(LoginPage);
   }

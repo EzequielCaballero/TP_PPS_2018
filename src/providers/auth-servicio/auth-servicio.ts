@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 //FIREBASE
 import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
-import AuthProvider = firebase.auth.AuthProvider;
+//import AuthProvider = firebase.auth.AuthProvider;
 
 @Injectable()
 export class AuthServicioProvider {
@@ -44,6 +44,10 @@ export class AuthServicioProvider {
 
   get_userEmail(){
     return this.user && this.user.email;
+  }
+
+  get_userUID(){
+    return this.user.uid;
   }
 
 }

@@ -4,8 +4,8 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 
-import { MyApp } from './app.component';
 //PAGES
+import { MyApp } from './app.component';
 import { InicioPage, RegistroPage, LoginPage,
          ClienteInicioPage, ClientePerfilPage, ClienteViajePage, ClienteReservaPage, ClienteHistorialPage, ClienteEstadisticaPage, ClienteEncuestaPage, //--CLIENTE
          ChoferInicioPage, ChoferPerfilPage, ChoferViajePage, ChoferHistorialPage, ChoferEstadisticaPage, ChoferEncuestaPage,//-----------------------------CHOFER
@@ -26,6 +26,10 @@ import { HttpModule } from '@angular/http';
 //SERVICIOS
 import { UsuarioServicioProvider } from '../providers/usuario-servicio/usuario-servicio';
 import { AuthServicioProvider } from '../providers/auth-servicio/auth-servicio';
+
+//ONE SIGNAL (Push notification)
+import { OneSignal } from '@ionic-native/onesignal';
+import { PushOneSignalProvider } from '../providers/push-one-signal/push-one-signal';
 
 @NgModule({
   declarations: [
@@ -109,7 +113,9 @@ import { AuthServicioProvider } from '../providers/auth-servicio/auth-servicio';
     AngularFireDatabase,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     UsuarioServicioProvider,
-    AuthServicioProvider
+    AuthServicioProvider,
+    OneSignal,
+    PushOneSignalProvider
   ]
 })
 export class AppModule {}
